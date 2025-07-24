@@ -356,7 +356,7 @@ async def create_slack_channels_for_proposal(
 @router.put(
     "/proposals/lock",
     response_model=ProposalChangeResultsList,
-    dependencies=[Depends(validate_admin_role)],
+    dependencies=[Depends(validate_admin_role) != None],
 )
 async def lock(proposal_list: ProposalsToChangeList, response: Response):
     unknown_proposals = [
