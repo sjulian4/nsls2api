@@ -3,7 +3,7 @@ from httpx import ASGITransport, AsyncClient
 
 from fastapi import Request
 
-from nsls2api.main import app
+
 from nsls2api.api.models.proposal_model import (
     ProposalChangeResultsList,
     LockedProposalsList,
@@ -34,6 +34,7 @@ async def test_admin_status():
 @pytest.mark.anyio
 async def test_get_proposals():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
+    from nsls2api.main import app
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
@@ -46,6 +47,7 @@ async def test_get_proposals():
 async def test_lock_and_unlock_proposals():
     #resetting to ensure locked is false
     key = await ApiKey.find_one(ApiKey.username == "test_user")
+    from nsls2api.main import app
     data_start = {"proposals_to_change": [test_proposal_id]}
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
@@ -108,6 +110,7 @@ async def test_lock_and_unlock_proposals():
 @pytest.mark.anyio
 async def test_lock_and_unlock_beamlines():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
+    from nsls2api.main import app
     # start with unlocking to ensure its unlocked
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
@@ -152,6 +155,7 @@ async def test_lock_and_unlock_beamlines():
 @pytest.mark.anyio
 async def test_lock_and_unlock_cycles():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
+    from nsls2api.main import app
     # start with unlocking to ensure its unlocked
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
