@@ -40,7 +40,7 @@ async def test_get_proposals():
         response = await ac.get( f"/v1/proposals/?beamline={test_beamline_name}", headers={"Authorization": key.secret_key})
     response_json = response.json()
     assert response.status_code == 200
-    assert response_json.proposals[0].proposal_id == test_proposal_id
+    assert response_json["proposals"][0].proposal_id == test_proposal_id
 
 @pytest.mark.anyio
 async def test_lock_and_unlock_proposals():
