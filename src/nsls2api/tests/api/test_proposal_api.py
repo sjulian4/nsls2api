@@ -29,7 +29,8 @@ async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     result_of_validate = await validate_admin_role(api_key=key.secret_key, request=Request)
     assert result_of_validate == key.user
-    #above confirms that the key is not an admin key. Validate_admin_role returns None.
+    #above confirms that the key is NOT an admin key. Validate_admin_role returns None. already checked that this is not a LookupError
+
 
 @pytest.mark.anyio
 async def test_lock_and_unlock_proposals():
@@ -40,7 +41,7 @@ async def test_lock_and_unlock_proposals():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         response_start = await ac.put( f"/v1/proposals/unlock",
-                json=data_start,headers={"Authorization": key.secret_key})
+                json=data_start,headers={"Authorization": os.getenv(key)})
         
     response_start_json = response_start.json()
     assert response_start.status_code == 200
