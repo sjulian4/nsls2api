@@ -56,8 +56,8 @@ async def db():
         facility_id="nsls2",
         fullname="National Synchrotron Light Source II",
         pass_facility_id="NSLS-II",
-        # data_admin_group="nsls2-data-admins",
-        # data_admins=["testy-mcdata"],
+        data_admin_group="nsls2-data-admins",
+        data_admins=["testy-mcdata"],
     )
     await facility.insert()
 
