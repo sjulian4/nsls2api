@@ -31,7 +31,7 @@ async def test_admin_status():
     # assert result_of_validate == key.user
     #above confirms that the key is NOT an admin key. Validate_admin_role returns None. already checked that this is not a LookupError
 
-@pytest.mark.anyio
+@pytest.mark.dependency()
 async def test_get_proposals():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     async with AsyncClient(
