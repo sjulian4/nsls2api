@@ -12,6 +12,7 @@ from nsls2api.services import (
 )
 from nsls2api.models.apikeys import ApiKey
 import os
+from nsls2api.infrastructure.security import validate_admin_role 
 
 test_proposal_id = "314159"
 
@@ -21,6 +22,11 @@ test_cycle_name = "1999-1"
 
 facility = "nsls2"
 
+@pytest.mark.anyio
+async def test_admin_status():
+    key = await ApiKey.find_one(ApiKey.username == "test_user")
+    result_of_validate = validate_admin_role(api_key=key.secret_key)
+    assert result_of_validate == key.user
 
 @pytest.mark.anyio
 async def test_lock_and_unlock_proposals():
@@ -56,7 +62,7 @@ async def test_lock_and_unlock_proposals():
     assert proposal_objects[0].locked == True
 
     #gathering locked proposals
-    facility_name = "nsls2",
+    facility_name = "nsls2"
     beamline = ["ZZZ"]
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
