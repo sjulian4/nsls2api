@@ -1,6 +1,8 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
 
+from fastapi import Request
+
 from nsls2api.main import app
 from nsls2api.api.models.proposal_model import (
     ProposalChangeResultsList,
@@ -25,7 +27,7 @@ facility = "nsls2"
 @pytest.mark.anyio
 async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
-    result_of_validate = validate_admin_role(api_key=key.secret_key)
+    result_of_validate = validate_admin_role(api_key=key.secret_key, request=Request)
     assert result_of_validate == key.user
 
 @pytest.mark.anyio
