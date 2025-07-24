@@ -37,7 +37,7 @@ async def test_get_proposals():
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
-        response = await ac.get( f"/v1/proposals/?beamline={test_beamline_name}", headers={"Authorization": ("random")})
+        response = await ac.get( f"/v1/proposals/?beamline={test_beamline_name}", headers={"Authorization": key.secret_key})
     response_json = response.json()
     assert response.status_code == 200
     assert response_json["proposals"][0]["proposal_id"] == test_proposal_id

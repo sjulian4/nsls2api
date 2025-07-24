@@ -11,7 +11,7 @@ from nsls2api.models.cycles import Cycle
 from nsls2api.models.facilities import Facility
 from nsls2api.models.proposal_types import ProposalType
 from nsls2api.models.proposals import Proposal
-from nsls2api.models.apikeys import ApiKey, ApiUser, ApiUserType
+from nsls2api.models.apikeys import ApiKey, ApiUser, ApiUserType, ApiUserRole
 from passlib.handlers.argon2 import argon2 as crypto
 from beanie import WriteRules
 from nsls2api.infrastructure.security import generate_api_key, lookup_api_key
@@ -22,6 +22,12 @@ async def db():
     settings = get_settings()
     await init_connection(settings.mongodb_dsn)
 
+    test_user = ApiUser(
+        username="test_user",
+        type=ApiUserType.user,
+        role=ApiUserRole.user
+    )
+    await test_user.insert()
     fake_key = await generate_api_key(username="test_user", usertype="user")
 
     # Insert a beamline into the database
