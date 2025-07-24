@@ -24,20 +24,20 @@ test_cycle_name = "1999-1"
 
 facility = "nsls2"
 
-@pytest.mark.dependency()
+@pytest.mark.anyio
 async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     result_of_validate = await validate_admin_role(api_key=key.secret_key, request=Request)
     # assert result_of_validate == key.user
     #above confirms that the key is NOT an admin key. Validate_admin_role returns None. already checked that this is not a LookupError
 
-@pytest.mark.dependency()
+@pytest.mark.anyio
 async def test_get_proposals():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
-        response = await ac.get( f"/v1/proposals/?beamline={test_beamline_name}", headers={"Authorization": key.secret_key})
+        response = await ac.get( f"/v1/proposals/?beamline={test_beamline_name}", headers={"Authorization": "random"})
     response_json = response.json()
     assert response.status_code == 200
     assert response_json["proposals"][0]["proposal_id"] == test_proposal_id

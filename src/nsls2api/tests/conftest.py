@@ -23,7 +23,7 @@ async def db():
     await init_connection(settings.mongodb_dsn)
 
     fake_key = await generate_api_key(username="test_user", usertype="user")
-     
+
     # Insert a beamline into the database
     beamline = Beamline(
         name="ZZZ",
