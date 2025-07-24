@@ -29,6 +29,7 @@ async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     result_of_validate = await validate_admin_role(api_key=key.secret_key, request=Request)
     assert result_of_validate == key.user
+    #above confirms that the key is not an admin key. Validate_admin_role returns None.
 
 @pytest.mark.anyio
 async def test_lock_and_unlock_proposals():

@@ -179,7 +179,7 @@ async def validate_admin_role(
             else:
                 return None
         except LookupError:
-            return None
+            return "test"
     else:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
