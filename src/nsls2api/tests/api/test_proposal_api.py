@@ -51,7 +51,7 @@ async def test_lock_and_unlock_proposals():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         response_start = await ac.put( f"/v1/proposals/unlock",
-                json=data_start,headers={"Authorization": key.secret_key})
+                json=data_start)
         
     response_start_json = response_start.json()
     assert response_start.status_code == 200
