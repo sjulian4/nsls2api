@@ -24,7 +24,7 @@ test_cycle_name = "1999-1"
 
 facility = "nsls2"
 
-@pytest.mark.anyio
+@pytest.mark.dependency()
 async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
     result_of_validate = await validate_admin_role(api_key=key.secret_key, request=Request)
@@ -51,7 +51,7 @@ async def test_lock_and_unlock_proposals():
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
         response_start = await ac.put( f"/v1/proposals/unlock",
-                json=data_start)
+                json=data_start,headers={"Authorization": key.secret_key})
         
     response_start_json = response_start.json()
     assert response_start.status_code == 200
