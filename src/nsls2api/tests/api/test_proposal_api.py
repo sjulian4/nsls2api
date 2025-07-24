@@ -27,7 +27,7 @@ facility = "nsls2"
 @pytest.mark.anyio
 async def test_admin_status():
     key = await ApiKey.find_one(ApiKey.username == "test_user")
-    result_of_validate = validate_admin_role(api_key=key.secret_key, request=Request)
+    result_of_validate = await validate_admin_role(api_key=key.secret_key, request=Request)
     assert result_of_validate == key.user
 
 @pytest.mark.anyio
