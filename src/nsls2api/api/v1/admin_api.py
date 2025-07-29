@@ -191,7 +191,7 @@ async def unlock_beamline(beamline_name: str):
     proposals_to_change = []
     while count == page_size:
         proposals_at_beamline = await proposal_service.fetch_proposals(
-            beamline=[beamline_name], page=page, page_size=page_size
+            beamline=[beamline_name.upper()], page=page, page_size=page_size
         )
         proposals_to_change.extend(
             [proposal.proposal_id for proposal in proposals_at_beamline]
@@ -220,7 +220,7 @@ async def lock_beamline(beamline_name: str):
     proposals_to_change = []
     while count == page_size:
         proposals_at_beamline = await proposal_service.fetch_proposals(
-            beamline=[beamline_name], page=page, page_size=page_size
+            beamline=[beamline_name.upper()], page=page, page_size=page_size
         )
         proposals_to_change.extend(
             [proposal.proposal_id for proposal in proposals_at_beamline]
